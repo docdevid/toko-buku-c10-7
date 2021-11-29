@@ -11,6 +11,6 @@ class TestSeeder extends Seeder
         $this->call('UserSeeder');
         $this->call('KategoriSeeder');
         $this->call('PenerbitSeeder');
-        $this->call('IklanSeeder');
+        $this->call('BukuSeeder');
     }
 }

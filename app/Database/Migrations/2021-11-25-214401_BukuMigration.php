@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class IklanMigration extends Migration
+class BukuMigration extends Migration
 {
     public function up()
     {
@@ -15,7 +15,7 @@ class IklanMigration extends Migration
                 'unsigned' => true,
                 'auto_increment' => true
             ],
-            'user_id' => [
+            'penerbit_id' => [
                 'type' => 'INT',
                 'unsigned' => true,
             ],
@@ -27,33 +27,52 @@ class IklanMigration extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => '255',
             ],
-            'lokasi' => [
+            'penulis' => [
                 'type' => 'VARCHAR',
                 'constraint' => '255',
             ],
+            'berat' => [
+                'type' => 'INT',
+                'unsigned' => true,
+            ],
+            'dimensi' => [
+                'type' => 'VARCHAR',
+                'constraint' => '11',
+            ],
+            'bahasa' => [
+                'type' => 'VARCHAR',
+                'constraint' => '11',
+            ],
+            'cover' => [
+                'type' => 'VARCHAR',
+                'constraint' => '11',
+            ],
+            'ISBN' => [
+                'type' => 'VARCHAR',
+                'constraint' => '20',
+            ],
             'deskripsi' => [
                 'type' => 'TEXT',
+            ],
+            'harga' => [
+                'type' => 'INT',
+                'constraint' => 20,
             ],
             'gambar' => [
                 'type' => 'VARCHAR',
                 'constraint' => '255',
             ],
-            'status' => [
-                'type' => 'ENUM',
-                'constraint' => ['aktif', 'nonaktif'],
-                'default' => 'aktif',
-            ],
             'created_at timestamp default current_timestamp',
             'updated_at timestamp on update current_timestamp',
         ]);
-        $this->forge->addForeignKey('user_id', 'user', 'id', 'cascade', 'cascade');
+        $this->forge->addForeignKey('penerbit_id', 'penerbit', 'id', 'cascade', 'cascade');
         $this->forge->addForeignKey('kategori_id', 'kategori', 'id', 'cascade', 'cascade');
         $this->forge->addKey('id');
-        $this->forge->createTable('iklan');
+        $this->forge->createTable('buku');
     }
 
     public function down()
     {
-        $this->forge->dropTable('iklan');
+        $this->forge->dropTable('buku');
     }
 }

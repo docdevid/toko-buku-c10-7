@@ -11,13 +11,19 @@ class KategoriSeeder extends Seeder
     {
         $model = new KategoriModel();
         $model->save([
-            'kategori' => 'Perhiasan'
+            'kategori' => 'Agama dan filsafat'
         ]);
         $model->save([
-            'kategori' => 'Berkas/Surat Berharga'
+            'kategori' => 'Buku Anak'
         ]);
         $model->save([
-            'kategori' => 'Kendaraan'
+            'kategori' => 'Kesehatan'
+        ]);
+        $model->save([
+            'kategori' => 'Komik'
+        ]);
+        $model->save([
+            'kategori' => 'Pelajaran'
         ]);
     }
 }

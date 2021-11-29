@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- bootstrap css -->
-    <link rel="stylesheet" href="<?= base_url('/node_modules/bootstrap/dist/css/bootstrap.min.css') ?>">
-    <script src="<?= base_url('/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js') ?>"></script>
+    <link rel="stylesheet" href="<?= base_url('public/node_modules/bootstrap/dist/css/bootstrap.min.css') ?>">
+    <script src="<?= base_url('public/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js') ?>"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
     <script src="<?= base_url("node_modules/sweetalert2/dist/sweetalert2.min.js") ?>"></script>
     <link rel="stylesheet" href="<?= base_url("node_modules/sweetalert2/dist/sweetalert2.min.css") ?>">
@@ -21,13 +21,13 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark border-bottom bg-primary py-2 mb-5">
+    <nav class="navbar navbar-expand-lg navbar-dark border-bottom bg-danger py-2 mb-5">
         <div class="container container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <a class="navbar-brand px-0 px-sm-4" href="#">
-                <img src="<?= base_url('/image/logo/logo.svg') ?>" />
+                <img src="<?= base_url('public/image/logo/logo.svg') ?>" />
             </a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -36,7 +36,8 @@
                             <a class="nav-link<?= url_is('/') || url_is('home*') ? ' active ' : ' ' ?> aria-current=" page" href="<?= base_url('home') ?>">Home</a>
                         </li>
                         <?php
-                        $kategoriModel = model('KategoriModel')
+                        $kategoriModel = model('KategoriModel');
+                        $penerbitModel = model('PenerbitModel');
                         ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -49,16 +50,43 @@
                                 <?php endforeach; ?>
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link<?= url_is('/member') || url_is('member/iklan*') ? ' active ' : ' ' ?> aria-current=" page" href="<?= base_url('member/iklan') ?>">Iklan</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Penerbit
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="<?= site_url('iklan') ?>">Semua Penerbit</a></li>
+                                <?php foreach ($penerbitModel->find() as $penerbit) : ?>
+                                    <li><a class="dropdown-item" href="<?= site_url('iklan/kategori/' . $penerbit->id) ?>"><?= $penerbit->penerbit ?></a></li>
+                                <?php endforeach; ?>
+                            </ul>
                         </li>
+                        <?php if (!isLoggedIn()) : ?>
+                            <ul class="navbar-nav mb-2 mb-lg-0">
+                                <li class="nav-item">
+                                    <a class="nav-link<?= url_is('login*') ? ' active' : '' ?>" aria-current="page" href="<?= base_url('login') ?>">Login</a>
+                                </li>
+                            </ul>
+                        <?php else : ?>
+                            <ul class="navbar-nav mb-2 mb-lg-0 me-0 me-sm-3">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        @<?= session()->get('userdata')->username ?>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li class="d-none"><a class="dropdown-item" href="#">Pengaturan</a></li>
+                                        <li><a class="dropdown-item" href="<?= base_url('logout') ?>">Logout</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        <?php endif; ?>
                     <?php endif; ?>
                     <?php if (isAdminRole('ADMIN')) : ?>
                         <li class="nav-item">
                             <a class="nav-link<?= url_is(session()->get('userdata')->role . '/dashboard') ? ' active ' : ' ' ?> <?= isLoggedIn() ?: 'disabled' ?>" aria-current="page" href="<?= base_url('admin/dashboard') ?>">Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link<?= url_is(session()->get('userdata')->role . '/iklan') ? ' active ' : ' ' ?> <?= isLoggedIn() ?: 'disabled' ?>" aria-current="page" href="<?= base_url('admin/iklan') ?>">Iklan</a>
+                            <a class="nav-link<?= url_is(session()->get('userdata')->role . '/buku') ? ' active ' : ' ' ?> <?= isLoggedIn() ?: 'disabled' ?>" aria-current="page" href="<?= base_url('admin/buku') ?>">Buku</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link<?= url_is(session()->get('userdata')->role . '/penerbit') ? ' active ' : ' ' ?> <?= isLoggedIn() ?: 'disabled' ?>" aria-current="page" href="<?= base_url('admin/penerbit') ?>">Penerbit</a>
@@ -71,31 +99,11 @@
                         </li>
                     <?php endif; ?>
                 </ul>
-                <?php if (isAdminRole('MEMBER')) : ?>
-                    <form method="GET" action="<?= current_url() ?>" class="d-flex">
-                        <input class="form-control me-2" type="search" name="search" placeholder="Search" value="<?= $_GET['search'] ?? null ?>" aria-label="Search">
-                        <button class="btn btn-outline-light" type="submit">Search</button>
-                    </form>
-                <?php endif; ?>
-                <?php if (!isLoggedIn()) : ?>
-                    <ul class="navbar-nav mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link<?= url_is('login*') ? ' active' : '' ?>" aria-current="page" href="<?= base_url('login') ?>">Login</a>
-                        </li>
-                    </ul>
-                <?php else : ?>
-                    <ul class="navbar-nav mb-2 mb-lg-0 me-0 me-sm-3">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                @<?= session()->get('userdata')->username ?>
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li class="d-none"><a class="dropdown-item" href="#">Pengaturan</a></li>
-                                <li><a class="dropdown-item" href="<?= base_url('logout') ?>">Logout</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                <?php endif; ?>
+                <form method="GET" action="<?= current_url() ?>" class="d-flex">
+                    <input class="form-control me-2" type="search" name="search" placeholder="Search" value="<?= $_GET['search'] ?? null ?>" aria-label="Search">
+                    <button class="btn btn-outline-light" type="submit">Cari</button>
+                </form>
+
 
             </div>
         </div>

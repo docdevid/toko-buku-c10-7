@@ -266,4 +266,149 @@ class Validation
             ]
         ]
     ];
+
+    // penerbit_id
+    // kategori_id
+    // judul
+    // penulis
+    // berat
+    // dimensi
+    // bahasa
+    // cover
+    // ISBN
+    // deskripsi
+    // gambar
+
+    public $createBuku = [
+        'penerbit_id' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Penerbit tidak valid',
+            ]
+        ],
+        'kategori_id' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Kategori tidak valid',
+            ]
+        ],
+        'judul' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Judul harus diisi',
+            ]
+        ],
+        'penulis' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Penulis harus diisi',
+            ]
+        ],
+        'berat' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Berat harus diisi',
+            ]
+        ],
+        'dimensi' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Dimensi harus diisi',
+            ]
+        ],
+        'bahasa' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Bahasa harus diisi',
+            ]
+        ],
+        'cover' => [
+            'rules' => 'required',
+            'errors' => [
+                'uploaded' => 'Cover tidak boleh kosong',
+            ]
+        ],
+        'ISBN' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'ISBN harus diisi',
+            ]
+        ],
+        'deskripsi' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Deskripsi harus diisi',
+            ]
+        ],
+        'gambar' => [
+            'rules' => 'uploaded[gambar]|is_image[gambar]',
+            'errors' => [
+                'uploaded' => 'Gambar tidak boleh kosong',
+                'is_image' => 'File harus berupa gambar',
+            ]
+        ]
+    ];
+
+    public $updateBuku = [
+        'penerbit_id' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Penerbit tidak valid',
+            ]
+        ],
+        'kategori_id' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Kategori tidak valid',
+            ]
+        ],
+        'judul' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Judul harus diisi',
+            ]
+        ],
+        'penulis' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Penulis harus diisi',
+            ]
+        ],
+        'berat' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Berat harus diisi',
+            ]
+        ],
+        'dimensi' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Dimensi harus diisi',
+            ]
+        ],
+        'bahasa' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Bahasa harus diisi',
+            ]
+        ],
+        'cover' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Cover tidak boleh kosong',
+            ]
+        ],
+        'ISBN' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'ISBN harus diisi',
+            ]
+        ],
+        'deskripsi' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Deskripsi harus diisi',
+            ]
+        ],
+    ];
 }

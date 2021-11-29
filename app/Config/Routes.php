@@ -47,8 +47,7 @@ $routes->group('member', ['filter' => 'authFilter'], function ($routes) {
 
 $routes->group('admin', ['filter' => 'authFilter'], function ($routes) {
     $routes->resource('dashboard', ['controller' => 'Admin\DashboardController', 'only' => 'index']);
-    $routes->get('iklan/kategori/(:num)', 'Admin\IklanController::index/$1');
-    $routes->resource('iklan', ['controller' => 'Admin\IklanController']);
+    $routes->resource('buku', ['controller' => 'Admin\BukuController']);
     $routes->resource('kategori', ['controller' => 'Admin\KategoriController']);
     $routes->resource('penerbit', ['controller' => 'Admin\PenerbitController']);
     $routes->resource('user', ['controller' => 'Admin\UserController']);

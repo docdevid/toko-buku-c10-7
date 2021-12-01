@@ -1,7 +1,5 @@
 <?= $this->extend('layout/template') ?>
-<?= $slug = $slug ?? null ?>
 <?= $this->section('content') ?>
-<h4 class="fw-bold"><?= $title ?> <?= $slug ? '<span class="badge bg-success">' . $slug . '</span>' : '' ?></h4>
 <div class="d-flex justify-content-between align-items-center mb-2">
     <a href="<?= site_url('admin/buku/new') ?>" class="btn btn-primary text-nowrap me-1"><i class="bi bi-plus-lg"></i> <span class="d-none d-xl-inline">Tambah</span></a>
     <form class="d-flex" method="GET" action="">
@@ -16,7 +14,7 @@
         <?= session()->has('delete_success') ? session()->getFlashdata('delete_success') : '' ?>
         <?= session()->has('get_failed') ? session()->getFlashdata('get_failed') : '' ?>
         <div class="table-responsive mb-3">
-            <table class="table table-bordered table-sm text-nowrap">
+            <table class="table table-bordered table-striped table-sm text-nowrap">
                 <tr>
                     <th scope="col">No</th>
                     <th scope="col">Judul</th>
@@ -37,12 +35,12 @@
                         <td scope="col"><?= $buku->kategori ?></td>
                         <td scope="col"><?= $buku->penerbit ?></td>
                         <td scope="col"><?= $buku->penulis ?></td>
-                        <td scope="col"><img src="<?= $buku->gambar == 'default.png' ? base_url('default.png') : base_url('uploads/buku/' . $buku->gambar) ?>" style="height:40px;object-fit:contain" alt="..."></td>
                         <td scope="col"><?= $buku->created_at ?></td>
+                        <td scope="col"><img src="<?= $buku->gambar == 'default.png' ? base_url('public/default.png') : base_url('public/uploads/buku/' . $buku->gambar) ?>" style="height:40px;width:40px;object-fit:cover" alt="..."></td>
                         <td scope="col">
-                            <a href="<?= site_url('admin/buku/' . $buku->id . '/edit') ?>" class="btn btn-sm text-primary"><i class="bi bi-info-circle"></i></a>
+                            <a href="<?= site_url('admin/buku/' . $buku->id) ?>" class="btn btn-sm text-primary"><i class="bi bi-info-circle"></i></a>
                             <a href="<?= site_url('admin/buku/' . $buku->id . '/edit') ?>" class="btn btn-sm text-success"><i class="bi bi-pencil"></i></a>
-                            <form onSubmit="event.preventDefault();deleteHandler(this);" action="<?= base_url('admin/buku/' . $buku->id) ?>" method="POST" class="form d-inline">
+                            <form onSubmit="event.preventDefault();deleteHandler(this);" action="<?= site_url('admin/buku/' . $buku->id) ?>" method="POST" class="form d-inline">
                                 <input type="hidden" name="_method" value="DELETE" />
                                 <?= csrf_field() ?>
                                 <button type="submit" class="btn btn-sm text-danger"><i class="bi bi-trash"></i></button>

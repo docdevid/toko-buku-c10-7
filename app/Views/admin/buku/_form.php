@@ -10,23 +10,23 @@ $buku = isset($buku) ? $buku : null;
         <h4 class="fw-bold"><?= $buku ? 'Perbarui' : 'Tambah' ?> <?= $title ?></h4>
         <?= session()->has('create_error') ? session()->getFlashdata('create_error') : '' ?>
 
-        <form action="<?= $buku ? base_url('admin/buku/' . $buku->id) : base_url('admin/buku') ?>" method="post" enctype="multipart/form-data">
+        <form action="<?= $buku ? site_url('admin/buku/' . $buku->id) : site_url('admin/buku') ?>" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-12 col-md-4">
                     <div class="mb-3">
                         <label for="gambar" class="form-label">Gambar</label>
                         <input type="file" onchange="previewImage()" class="form-control <?= $validation->hasError('gambar') ? 'is-invalid' : '' ?>" name="gambar" id="gambar" />
                         <?php if ($validation->hasError('gambar')) : ?>
-                            <div id="validationServer05Feedback" class="invalid-feedback">
+                            <div id="validationServer05Feedback" class="invalid-feedback    ">
                                 <?= $validation->getError('gambar') ?>
                             </div>
                         <?php endif; ?>
                         <div class="row mt-3 ">
                             <div class="col-12 col-sm-12 col-md-10 col-lg-12">
                                 <?php if ($buku) : ?>
-                                    <img id="imgPreview" class="rounded" src="<?= $buku->gambar != '' && $buku->gambar != 'default.png' ? base_url('uploads/buku/' . $buku->gambar) : base_url('default.png') ?>" style="width:100%;object-fit:cover;" />
+                                    <img id="imgPreview" class="rounded" src="<?= $buku->gambar != '' && $buku->gambar != 'default.png' ? base_url('public/uploads/buku/' . $buku->gambar) : base_url('public/default.png') ?>" style="width:100%;object-fit:cover;" />
                                 <?php else : ?>
-                                    <img id="imgPreview" class="rounded" src="<?= base_url('default.png') ?>" style="width:100%;object-fit:cover;" />
+                                    <img id="imgPreview" class="rounded" src="<?= base_url('public/default.png') ?>" style="width:100%;object-fit:cover;" />
                                 <?php endif; ?>
                             </div>
                         </div>

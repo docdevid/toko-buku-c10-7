@@ -34,6 +34,10 @@ class BukuController extends BaseController
      */
     public function show($id = null)
     {
+        return view('admin/buku/show', [
+            'buku' => $this->BukuModel->getByID($id)->first(),
+            'title' => 'Buku'
+        ]);
     }
 
     /**
@@ -59,7 +63,7 @@ class BukuController extends BaseController
         if ($this->validation->run($this->request->getPost(), 'createBuku')) {
             $gambar = $this->request->getFile('gambar');
             $gambar_name = $gambar->getRandomName();
-            $gambar->move('uploads/buku', $gambar_name);
+            $gambar->move('public/uploads/buku', $gambar_name);
             $this->BukuEntity->gambar = $gambar_name;
             $this->BukuEntity->fill($this->request->getPost());
             $this->BukuModel->save($this->BukuEntity);
@@ -102,8 +106,8 @@ class BukuController extends BaseController
                 $this->BukuEntity->gambar = $_gambar == '' ? 'default.png' : $_gambar;
             } else {
                 $gambar_name = $gambar->getRandomName();
-                if ($gambar->move('uploads/buku', $gambar_name)) {
-                    @unlink(FCPATH . 'uploads/buku/' . $_gambar);
+                if ($gambar->move('public/uploads/buku', $gambar_name)) {
+                    @unlink(FCPATH . 'public/uploads/buku/' . $_gambar);
                     $this->BukuEntity->gambar = $gambar_name;
                 }
             }
@@ -126,7 +130,7 @@ class BukuController extends BaseController
         if (!$buku) {
             return redirect()->to('admin/buku')->with('get_failed', alert('danger', 'Pengguna tidak ditemukan', 'Error '));
         }
-        @unlink(FCPATH . 'uploads/buku/' . $buku->gambar);
+        @unlink(FCPATH . 'public/uploads/buku/' . $buku->gambar);
         $this->BukuModel->delete($id);
         return redirect()->to('admin/buku')->with('delete_success', alert('success', 'Data berhasil dihapus', 'Berhasil'));
     }

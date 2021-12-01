@@ -2,32 +2,25 @@
 
 namespace App\Models;
 
-use App\Entities\BukuEntity;
+use App\Entities\DetailPemesananEntity;
 use CodeIgniter\Model;
 
-class BukuModel extends Model
+class DetailPemesananModel extends Model
 {
     protected $DBGroup              = 'default';
-    protected $table                = 'buku';
+    protected $table                = 'detail_pemesanan';
     protected $primaryKey           = 'id';
     protected $useAutoIncrement     = true;
     protected $insertID             = 0;
-    protected $returnType           = BukuEntity::class;
+    protected $returnType           = DetailPemesananEntity::class;
     protected $useSoftDeletes       = false;
     protected $protectFields        = true;
     protected $allowedFields        = [
-        'penerbit_id',
-        'kategori_id',
-        'judul',
-        'penulis',
-        'berat',
-        'dimensi',
-        'bahasa',
-        'cover',
-        'ISBN',
-        'deskripsi',
+        'pemesanan_id',
+        'buku_id',
         'harga',
-        'gambar',
+        'sub_total',
+        'qty',
     ];
 
     // Dates
@@ -54,23 +47,14 @@ class BukuModel extends Model
     protected $beforeDelete         = [];
     protected $afterDelete          = [];
 
-    public function get($keyword = null)
+    public function get($id_pemesanan)
     {
-        $builder = $this->select('buku.*,kategori.kategori as kategori,penerbit.penerbit as penerbit');
+        $builder = $this->select('detail_pemesanan.*,
+        buku.judul judul');
         $builder = $builder->table($this->table);
-        $builder = $builder->join('kategori', 'kategori.id = buku.kategori_id', 'left');
-        $builder = $builder->join('penerbit', 'penerbit.id = buku.penerbit_id', 'left');
-        if ($keyword) $builder->like(['judul' => $keyword]);
-        return $builder;
-    }
-
-    public function getByID($id)
-    {
-        $builder = $this->select('buku.*,kategori.kategori as kategori,penerbit.penerbit as penerbit');
-        $builder = $builder->table($this->table);
-        $builder = $builder->join('kategori', 'kategori.id = buku.kategori_id', 'left');
-        $builder = $builder->join('penerbit', 'penerbit.id = buku.penerbit_id', 'left');
-        $builder->where(['buku.id' => $id]);
+        $builder = $builder->join('buku', 'buku.id = detail_pemesanan.buku_id', 'left');
+        $builder = $builder->join('pemesanan', 'pemesanan.id = detail_pemesanan.pemesanan_id', 'left');
+        $builder = $builder->where('pemesanan_id', $id_pemesanan);
         return $builder;
     }
 }

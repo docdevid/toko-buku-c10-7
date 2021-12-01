@@ -411,4 +411,60 @@ class Validation
             ]
         ],
     ];
+
+    //     user_id
+    // nama_lengkap
+    // no_hp
+    // email
+    // alamat
+
+    public $createPemesanan = [
+        'user_id' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'User tidak valid',
+            ]
+        ],
+        'nama_lengkap' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Nama lengkap harus diisi',
+            ]
+        ],
+        'no_hp' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'No HP harus diisi',
+            ]
+        ],
+        'email' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Email harus diisi',
+            ]
+        ],
+        'alamat' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Alamat harus diisi',
+            ]
+        ],
+    ];
+    // pemesanan_id
+    // status
+
+    public $createStatusPembayaran = [
+        'pemesanan_id' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Pemesanan tidak valid',
+            ]
+        ],
+        'status' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Status harus diisi',
+            ]
+        ],
+    ];
 }

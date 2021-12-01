@@ -20,12 +20,8 @@ class HomeController extends BaseController
     public function index()
     {
         return view('front/home/index', [
-            'bukus' => $this->BukuModel
-                ->select('buku.*,kategori.kategori as kategori')
-                ->join('kategori', 'kategori.id = buku.kategori_id', 'left')
-                ->join('penerbit', 'penerbit.id = buku.penerbit_id', 'left')
-                ->orderBy('buku.id', 'desc')
-                ->findAll(4),
+            'bukus' => $this->BukuModel->get()->paginate(10),
+            'pager' => $this->BukuModel->pager,
             'title' => getAppName()
         ]);
     }

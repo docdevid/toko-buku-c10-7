@@ -8,7 +8,7 @@ class LogoutController extends BaseController
 {
     public function index()
     {
-        session()->destroy();
+        unset($_SESSION['userdata']);
         return redirect()->to('login')->with('success_logout', 'Logout success');
     }
 }

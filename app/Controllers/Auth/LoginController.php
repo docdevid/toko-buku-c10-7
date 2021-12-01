@@ -41,7 +41,7 @@ class LoginController extends BaseController
                 if (password_verify($this->request->getPost('password'), $user->password)) {
                     $this->session->set('userdata', $user);
                     if ($this->session->get('userdata')->role == 'MEMBER') {
-                        return redirect()->to('member/iklan');
+                        return redirect()->to('/');
                     }
                     return redirect()->to('admin/dashboard');
                 } else {

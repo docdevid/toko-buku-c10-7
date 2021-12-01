@@ -1,14 +1,5 @@
 <?= $this->extend('layout/template') ?>
-<?= $slug = $slug ?? null ?>
 <?= $this->section('content') ?>
-<div class="d-flex justify-content-between align-items-center mb-2">
-    <a href="<?= site_url('admin/penerbit/new') ?>" class="btn btn-primary text-nowrap me-1"><i class="bi bi-plus-lg"></i> <span class="d-none d-xl-inline">Tambah</span></a>
-    <form class="d-flex" method="GET" action="">
-        <input type="search" class="form-control me-1" name="search" value="<?= $_GET['search'] ?? null ?>" placeholder="Cari...">
-        <button class="btn btn-primary"><i class="bi bi-search"></i></button>
-    </form>
-</div>
-
 <div class="row p-0">
     <div class="col-12">
         <?= session()->has('create_success') ? session()->getFlashdata('create_success') : '' ?>
@@ -18,25 +9,24 @@
             <table class="table table-bordered table-striped table-sm text-nowrap">
                 <tr>
                     <th scope="col">No</th>
-                    <th scope="col">Penerbit</th>
+                    <th scope="col">Id Pemesanan</th>
+                    <th scope="col">Nama Lengkap</th>
+                    <th scope="col-2">Alamat</th>
                     <th scope="col">Dibuat</th>
                     <th scope="col">Aksi</th>
                 </tr>
                 <?php
                 $no = 1 + ($pager->getPerPage() * ($pager->getCurrentPage() - 1));
                 ?>
-                <?php foreach ($penerbits as $penerbit) : ?>
+                <?php foreach ($pemesanans as $pemesanan) : ?>
                     <tr>
-                        <td><?= $no++ ?></td>
-                        <td><?= $penerbit->penerbit ?></td>
-                        <td><?= $penerbit->created_at ?></td>
-                        <td>
-                            <a href="<?= site_url('admin/penerbit/' . $penerbit->id . '/edit') ?>" class="btn btn-sm text-success"><i class="bi bi-pencil"></i></a>
-                            <form onSubmit="event.preventDefault();deleteHandler(this);" action="<?= base_url('admin/penerbit/' . $penerbit->id) ?>" method="POST" class="form d-inline">
-                                <input type="hidden" name="_method" value="DELETE" />
-                                <?= csrf_field() ?>
-                                <button type="submit" class="btn btn-sm text-danger"><i class="bi bi-trash"></i></button>
-                            </form>
+                        <td scope="col"><?= $no++ ?></td>
+                        <td scope="col">#<?= $pemesanan->id ?></td>
+                        <td scope="col"><?= $pemesanan->nama_lengkap ?></td>
+                        <td scope="col"><?= character_limiter($pemesanan->alamat, 50) ?></td>
+                        <td scope="col"><?= $pemesanan->created_at ?></td>
+                        <td scope="col">
+                            <a href="<?= site_url('member/pemesanan/' . $pemesanan->id) ?>" class="btn btn-sm text-primary"><i class="bi bi-info-circle"></i></a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

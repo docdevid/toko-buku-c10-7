@@ -26,7 +26,7 @@
                         <div class="col-6">
                             <div class="mb-3">
                                 <label for="nama_lengkap" class="form-label">Nama Lengkap</label>
-                                <input type="text" class="form-control<?= $validation->hasError('nama_lengkap') ? ' is-invalid' : '' ?>" name="nama_lengkap" id="nama_lengkap" value="<?= old('nama_lengkap') ? old('nama_lengkap') : ($user ? $user->nama_lengkap : '') ?>" placeholder="John doe">
+                                <input type="text" class="form-control<?= $validation->hasError('nama_lengkap') ? ' is-invalid' : '' ?>" name="nama_lengkap" id="nama_lengkap" value="<?= old('nama_lengkap') ? old('nama_lengkap') : ($user ? $user->nama_lengkap : '') ?>">
                                 <div id="validationServerNama_lengkapFeedback" class="invalid-feedback">
                                     <?= $validation->hasError('nama_lengkap') ? $validation->getError('nama_lengkap') : '' ?>
                                 </div>
@@ -35,7 +35,7 @@
                         <div class="col-6">
                             <div class="mb-3">
                                 <label for="username" class="form-label">Username</label>
-                                <input type="text" class="form-control<?= $validation->hasError('username') ? ' is-invalid' : '' ?>" name="username" id="username" value="<?= old('username') ? old('username') : ($user ? $user->username : '') ?>" placeholder="John doe">
+                                <input type="text" class="form-control<?= $validation->hasError('username') ? ' is-invalid' : '' ?>" name="username" id="username" value="<?= old('username') ? old('username') : ($user ? $user->username : '') ?>">
                                 <div id="validationServerUsernameFeedback" class="invalid-feedback">
                                     <?= $validation->hasError('username') ? $validation->getError('username') : '' ?>
                                 </div>
@@ -44,14 +44,14 @@
                     </div>
                     <div class="mb-3">
                         <label for="no_hp" class="form-label">No HP</label>
-                        <input type="text" class="form-control<?= $validation->hasError('no_hp') ? ' is-invalid' : '' ?>" name="no_hp" id="no_hp" value="<?= old('no_hp') ? old('no_hp') : ($user ? $user->no_hp : '') ?>" placeholder="John doe">
+                        <input type="text" class="form-control<?= $validation->hasError('no_hp') ? ' is-invalid' : '' ?>" name="no_hp" id="no_hp" value="<?= old('no_hp') ? old('no_hp') : ($user ? $user->no_hp : '') ?>">
                         <div id="validationServerNo_hpFeedback" class="invalid-feedback">
                             <?= $validation->hasError('no_hp') ? $validation->getError('no_hp') : '' ?>
                         </div>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="text" class="form-control<?= $validation->hasError('email') ? ' is-invalid' : '' ?>" name="email" id="email" value="<?= old('email') ? old('email') : ($user ? $user->email : '') ?>" placeholder="John doe">
+                        <input type="text" class="form-control<?= $validation->hasError('email') ? ' is-invalid' : '' ?>" name="email" id="email" value="<?= old('email') ? old('email') : ($user ? $user->email : '') ?>">
                         <div id="validationServerEmailFeedback" class="invalid-feedback">
                             <?= $validation->hasError('email') ? $validation->getError('email') : '' ?>
                         </div>
@@ -90,9 +90,9 @@
                         <div class="row mt-3 ">
                             <div class="col-12 col-sm-8 col-md-10 col-lg-6">
                                 <?php if ($user) : ?>
-                                    <img id="imgPreview" class="rounded" src="<?= $user->gambar != '' && $user->gambar != 'default.png' ? base_url('upload/user/' . $user->gambar) : base_url('default.png') ?>" style="width:inherit;height:100px;object-fit:cover;" />
+                                    <img id="imgPreview" class="rounded" src="<?= $user->gambar != '' && $user->gambar != 'default.png' ? base_url('public/upload/user/' . $user->gambar) : base_url('public/default.png') ?>" style="width:inherit;height:100px;object-fit:cover;" />
                                 <?php else : ?>
-                                    <img id="imgPreview" class="rounded" src="<?= base_url('default.png') ?>" style="width:inherit;height:100px;object-fit:cover;" />
+                                    <img id="imgPreview" class="rounded" src="<?= base_url('public/default.png') ?>" style="width:inherit;height:100px;object-fit:cover;" />
                                 <?php endif; ?>
                             </div>
                         </div>

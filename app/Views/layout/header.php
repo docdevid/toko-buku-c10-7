@@ -10,12 +10,10 @@
     <link rel="stylesheet" href="<?= base_url('public/node_modules/bootstrap/dist/css/bootstrap.min.css') ?>">
     <script src="<?= base_url('public/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js') ?>"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
-    <script src="<?= base_url("node_modules/sweetalert2/dist/sweetalert2.min.js") ?>"></script>
-    <link rel="stylesheet" href="<?= base_url("node_modules/sweetalert2/dist/sweetalert2.min.css") ?>">
+    <script src="<?= base_url('public/node_modules/sweetalert2/dist/sweetalert2.min.js') ?>"></script>
+    <link rel="stylesheet" href="<?= base_url('public/node_modules/sweetalert2/dist/sweetalert2.min.css') ?>">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-    <script src="<?= base_url("node_modules/leaflet-geometryutil/") ?>/src/leaflet.geometryutil.js"></script>
-    <script src="<?= base_url("node_modules/leaflet-arrowheads/") ?>/src/leaflet-arrowheads.js"></script>
     <?= $this->renderSection('head') ?>
     <title><?= $title ?></title>
 </head>
@@ -61,25 +59,7 @@
                                 <?php endforeach; ?>
                             </ul>
                         </li>
-                        <?php if (!isLoggedIn()) : ?>
-                            <ul class="navbar-nav mb-2 mb-lg-0">
-                                <li class="nav-item">
-                                    <a class="nav-link<?= url_is('login*') ? ' active' : '' ?>" aria-current="page" href="<?= base_url('login') ?>">Login</a>
-                                </li>
-                            </ul>
-                        <?php else : ?>
-                            <ul class="navbar-nav mb-2 mb-lg-0 me-0 me-sm-3">
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        @<?= session()->get('userdata')->username ?>
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li class="d-none"><a class="dropdown-item" href="#">Pengaturan</a></li>
-                                        <li><a class="dropdown-item" href="<?= base_url('logout') ?>">Logout</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        <?php endif; ?>
+
                     <?php endif; ?>
                     <?php if (isAdminRole('ADMIN')) : ?>
                         <li class="nav-item">
@@ -97,7 +77,39 @@
                         <li class="nav-item">
                             <a class="nav-link<?= url_is('admin/user*') ? ' active ' : ' ' ?> <?= isLoggedIn() ?: 'disabled' ?>" aria-current="page" href="<?= base_url('admin/user') ?>">Pengguna </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link<?= url_is(session()->get('userdata')->role . '/pemesanan') ? ' active ' : ' ' ?> <?= isLoggedIn() ?: 'disabled' ?>" aria-current="page" href="<?= base_url('admin/pemesanan') ?>">Pemesanan</a>
+                        </li>
                     <?php endif; ?>
+                    <?php if (!isLoggedIn()) : ?>
+                        <li class="nav-item">
+                            <a class="nav-link<?= url_is('login*') ? ' active' : '' ?>" aria-current="page" href="<?= base_url('login') ?>">Login</a>
+                        </li>
+                    <?php else : ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-check"></i> @<?= session()->get('userdata')->username ?>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <?php if (isAdminRole('MEMBER')) : ?>
+                                    <li><a class="dropdown-item" href="<?= site_url('member/pemesanan') ?>">Pemesanan</a></li>
+                                    <li><a class="dropdown-item" href="<?= site_url('logout') ?>">Status Pengiriman</a></li>
+                                    <li><a class="dropdown-item" href="<?= site_url('logout') ?>">Konfirmasi Pembayaran</a></li>
+                                <?php endif; ?>
+                                <li><a class="dropdown-item" href="<?= site_url('logout') ?>">logout</a></li>
+                            </ul>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+                <ul class="navbar-nav mb-2 mb-lg-0 me-0 me-md-4">
+                    <li class="nav-item ">
+                        <a href="<?= site_url('cart') ?>" class="nav-link">
+                            <div class="position-relative">
+                                <i class="bi bi-cart4 h6"></i>
+                                <small class="position-absolute" style="top:-5px;"><span class="badge bg-primary rounded-circle text-white"><?= session()->has('cart_items') ? count(session()->get('cart_items')) : '0' ?></span></small>
+                            </div>
+                        </a>
+                    </li>
                 </ul>
                 <form method="GET" action="<?= current_url() ?>" class="d-flex">
                     <input class="form-control me-2" type="search" name="search" placeholder="Search" value="<?= $_GET['search'] ?? null ?>" aria-label="Search">

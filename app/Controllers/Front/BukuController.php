@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Front;
 
-use CodeIgniter\RESTful\ResourceController;
+use App\Controllers\BaseController;
+use App\Models\BukuModel;
 
-class HomeController extends ResourceController
+class BukuController extends BaseController
 {
     public function __construct()
     {
-        $this->session = \Config\Services::session();
+        $this->BukuModel = new BukuModel();
     }
     /**
      * Return an array of resource objects, themselves in array format
@@ -17,10 +18,7 @@ class HomeController extends ResourceController
      */
     public function index()
     {
-        return view('front/home/index', [
-            'session' => $this->session,
-            'title' => getAppName()
-        ]);
+        //
     }
 
     /**
@@ -30,7 +28,10 @@ class HomeController extends ResourceController
      */
     public function show($id = null)
     {
-        //
+        return view('front/buku/show', [
+            'title' => getAppName(),
+            'buku' => $this->BukuModel->getByID($id)->first()
+        ]);
     }
 
     /**

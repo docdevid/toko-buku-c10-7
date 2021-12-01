@@ -1,8 +1,5 @@
 <?= $this->extend('layout/template') ?>
-<?= $slug = $slug ?? null ?>
 <?= $this->section('content') ?>
-<h4 class="fw-bold"><?= $title ?> <?= $slug ? '<span class="badge bg-success">' . $slug . '</span>' : '' ?></h4>
-<p class="text-muted">Berikut adalah data <?= $title ?> sistem yang sudah terdaftar</p>
 <div class="d-flex justify-content-between align-items-center mb-2">
     <a href="<?= site_url('admin/kategori/new') ?>" class="btn btn-primary text-nowrap me-1"><i class="bi bi-plus-lg"></i> <span class="d-none d-xl-inline">Tambah</span></a>
     <form class="d-flex" method="GET" action="">
@@ -17,10 +14,10 @@
         <?= session()->has('delete_success') ? session()->getFlashdata('delete_success') : '' ?>
         <?= session()->has('get_failed') ? session()->getFlashdata('get_failed') : '' ?>
         <div class="table-responsive mb-3">
-            <table class="table table-bordered table-sm text-nowrap">
+            <table class="table table-bordered table-striped table-sm text-nowrap">
                 <tr>
                     <th scope="col">No</th>
-                    <th scope="col">Kaetegori</th>
+                    <th scope="col">Kategori</th>
                     <th scope="col">Dibuat</th>
                     <th scope="col">Aksi</th>
                 </tr>

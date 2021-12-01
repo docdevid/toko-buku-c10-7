@@ -32,8 +32,11 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Front\HomeController');
-$routes->get('/home', 'Front\HomeController');
-$routes->get('/logout', 'Auth\LogoutController::index');
+$routes->get('home', 'Front\HomeController');
+$routes->resource('buku', ['controller' => 'Front\BukuController', 'only' => ['show']]);
+// Cart
+$routes->resource('cart', ['controller' => 'Front\CartController']);
+$routes->get('logout', 'Auth\LogoutController::index');
 $routes->resource('login', ['controller' => 'Auth\LoginController', 'only' => ['index', 'create']]);
 $routes->resource('registrasi', ['controller' => 'Auth\RegistrasiController', 'only' => ['index', 'create']]);
 
@@ -41,8 +44,7 @@ $routes->get('iklan/kategori/(:num)', 'Front\IklanController::index/$1');
 $routes->resource('iklan', ['controller' => 'Front\IklanController']);
 
 $routes->group('member', ['filter' => 'authFilter'], function ($routes) {
-    $routes->get('iklan/kategori/(:num)', 'Front\Member\IklanController::index/$1');
-    $routes->resource('iklan', ['controller' => 'Front\Member\IklanController']);
+    $routes->resource('pemesanan', ['controller' => 'Front\Member\PemesananController']);
 });
 
 $routes->group('admin', ['filter' => 'authFilter'], function ($routes) {
@@ -51,6 +53,8 @@ $routes->group('admin', ['filter' => 'authFilter'], function ($routes) {
     $routes->resource('kategori', ['controller' => 'Admin\KategoriController']);
     $routes->resource('penerbit', ['controller' => 'Admin\PenerbitController']);
     $routes->resource('user', ['controller' => 'Admin\UserController']);
+    $routes->resource('pemesanan', ['controller' => 'Admin\PemesananController']);
+    $routes->resource('status-pembayaran', ['controller' => 'Admin\StatusPembayaranController']);
 });
 
 

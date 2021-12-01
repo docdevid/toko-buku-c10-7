@@ -14,7 +14,23 @@ class BukuSeeder extends Seeder
             [
                 'penerbit_id' => 1,
                 'kategori_id' => 1,
-                'judul' => 'Buku 1',
+                'judul' => 'Matematika',
+                'penulis' => 'Penulis 1',
+                'berat' => '1',
+                'dimensi' => '1',
+                'bahasa' => '1',
+                'cover' => '1',
+                'ISBN' => '1',
+                'deskripsi' => '1',
+                'harga' => 25000,
+                'gambar' => 'default.png',
+            ]
+        );
+        $model->save(
+            [
+                'penerbit_id' => 1,
+                'kategori_id' => 1,
+                'judul' => 'Fisika',
                 'penulis' => 'Penulis 1',
                 'berat' => '1',
                 'dimensi' => '1',
@@ -30,7 +46,7 @@ class BukuSeeder extends Seeder
             [
                 'penerbit_id' => 1,
                 'kategori_id' => 1,
-                'judul' => 'Buku 1',
+                'judul' => 'Bahasa Inggri',
                 'penulis' => 'Penulis 1',
                 'berat' => '1',
                 'dimensi' => '1',
@@ -38,23 +54,7 @@ class BukuSeeder extends Seeder
                 'cover' => '1',
                 'ISBN' => '1',
                 'deskripsi' => '1',
-                'harga' => 20000,
-                'gambar' => 'default.png',
-            ]
-        );
-        $model->save(
-            [
-                'penerbit_id' => 1,
-                'kategori_id' => 1,
-                'judul' => 'Buku 1',
-                'penulis' => 'Penulis 1',
-                'berat' => '1',
-                'dimensi' => '1',
-                'bahasa' => '1',
-                'cover' => '1',
-                'ISBN' => '1',
-                'deskripsi' => '1',
-                'harga' => 20000,
+                'harga' => 15000,
                 'gambar' => 'default.png',
             ]
         );

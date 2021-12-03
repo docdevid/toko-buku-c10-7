@@ -16,9 +16,20 @@ class BukuController extends BaseController
      *
      * @return mixed
      */
-    public function index()
+    public function index($search_by = null, $search_id = null)
     {
-        //
+        // dd($kategori, $kategori_id);
+
+        if ($search_by == 'kategori') {
+            $buku = $this->BukuModel->getByKategori($search_id, $this->request->getGet('search'));
+        } else {
+            $buku = $this->BukuModel->get($this->request->getGet('search'));
+        }
+        return view('front/buku/index', [
+            'title' => getAppName(),
+            'bukus' => $buku->paginate(10),
+            'pager' => $this->BukuModel->pager
+        ]);
     }
 
     /**

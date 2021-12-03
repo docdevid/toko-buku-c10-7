@@ -37,7 +37,7 @@
                         $kategoriModel = model('KategoriModel');
                         $penerbitModel = model('PenerbitModel');
                         ?>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown d-none">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Kategori
                             </a>
@@ -48,7 +48,7 @@
                                 <?php endforeach; ?>
                             </ul>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown d-none">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Penerbit
                             </a>
@@ -93,8 +93,6 @@
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <?php if (isAdminRole('MEMBER')) : ?>
                                     <li><a class="dropdown-item" href="<?= site_url('member/pemesanan') ?>">Pemesanan</a></li>
-                                    <li><a class="dropdown-item" href="<?= site_url('logout') ?>">Status Pengiriman</a></li>
-                                    <li><a class="dropdown-item" href="<?= site_url('logout') ?>">Konfirmasi Pembayaran</a></li>
                                 <?php endif; ?>
                                 <li><a class="dropdown-item" href="<?= site_url('logout') ?>">logout</a></li>
                             </ul>

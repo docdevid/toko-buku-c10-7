@@ -20,6 +20,7 @@ class HomeController extends BaseController
     public function index()
     {
         return view('front/home/index', [
+            'bukus_slide' => $this->BukuModel->findAll(5),
             'bukus' => $this->BukuModel->get()->paginate(10),
             'pager' => $this->BukuModel->pager,
             'title' => getAppName()

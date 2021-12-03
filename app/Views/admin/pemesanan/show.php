@@ -11,11 +11,15 @@
                 </tr>
                 <tr>
                     <td><b>Status Pemabayaran</b></td>
-                    <td><span class="badge bg-success">Berhasil</span></td>
+                    <td><?= $pemesanan->status_pembayaran_status == '' || $pemesanan->status_pembayaran_status == 'belum dibayar' ? '<span class="badge bg-warning">Belum dibayar</span>' : '<span class="badge bg-success">Dibayar</span>'  ?></td>
                 </tr>
                 <tr>
                     <td><b>Nama lengkap</b></td>
                     <td><?= $pemesanan->nama_lengkap ?></td>
+                </tr>
+                <tr>
+                    <td><b>No HP</b></td>
+                    <td><?= $pemesanan->no_hp ?></td>
                 </tr>
                 <tr>
                     <td><b>Email</b></td>
@@ -39,8 +43,8 @@
                     <input type="hidden" name="pemesanan_id" value="<?= $pemesanan->id  ?>" />
                     <select name="status" class="form-control">
                         <option value="">Pilih Status</option>
-                        <option value="dibayar" <?= old('status') == 'dibayar' ? 'selected' : '' ?>>Dibayar</option>
-                        <option value="belum dibayar" <?= old('status') == 'belum dibayar' ? 'selected' : '' ?>>Belum Dibayar</option>
+                        <option value="dibayar" <?= $pemesanan->status_pembayaran_status == 'dibayar' ? 'selected' : '' ?>>Dibayar</option>
+                        <option value="belum dibayar" <?= $pemesanan->status_pembayaran_status == '' || $pemesanan->status_pembayaran_status == 'belum dibayar' ? 'selected' : '' ?>>Belum Dibayar</option>
                     </select>
                     <button type="submit" class="btn btn-success mt-3">Ubah Status</button>
                 </form>

@@ -33,15 +33,13 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Front\HomeController');
 $routes->get('home', 'Front\HomeController');
-$routes->resource('buku', ['controller' => 'Front\BukuController', 'only' => ['show']]);
+$routes->get('buku/(:alpha)/(:num)', 'Front\BukuController::index/$1/$2');
+$routes->resource('buku', ['controller' => 'Front\BukuController', 'only' => ['index', 'show']]);
 // Cart
 $routes->resource('cart', ['controller' => 'Front\CartController']);
 $routes->get('logout', 'Auth\LogoutController::index');
 $routes->resource('login', ['controller' => 'Auth\LoginController', 'only' => ['index', 'create']]);
 $routes->resource('registrasi', ['controller' => 'Auth\RegistrasiController', 'only' => ['index', 'create']]);
-
-$routes->get('iklan/kategori/(:num)', 'Front\IklanController::index/$1');
-$routes->resource('iklan', ['controller' => 'Front\IklanController']);
 
 $routes->group('member', ['filter' => 'authFilter'], function ($routes) {
     $routes->resource('pemesanan', ['controller' => 'Front\Member\PemesananController']);

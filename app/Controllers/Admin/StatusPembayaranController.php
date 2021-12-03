@@ -58,10 +58,14 @@ class StatusPembayaranController extends BaseController
      */
     public function create()
     {
-        // dd($this->request->getPost());
         if ($this->validation->run($this->request->getPost(), 'createStatusPembayaran')) {
             $this->StatusPembayaranEntity->fill($this->request->getPost());
-            $this->StatusPembayaranModel->save($this->StatusPembayaranEntity);
+            $pemesanan = $this->StatusPembayaranModel->getByPemesanan($this->request->getPost('pemesanan_id'))->first();
+            if ($pemesanan) {
+                $this->StatusPembayaranModel->update($pemesanan->id, $this->StatusPembayaranEntity);
+            } else {
+                $this->StatusPembayaranModel->save($this->StatusPembayaranEntity);
+            }
             return redirect()->to('admin/pemesanan');
         } else {
             return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());

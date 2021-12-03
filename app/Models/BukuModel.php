@@ -73,4 +73,15 @@ class BukuModel extends Model
         $builder->where(['buku.id' => $id]);
         return $builder;
     }
+
+    public function getByKategori($kategori_id = null, $keyword = null)
+    {
+        $builder = $this->select('buku.*,kategori.kategori as kategori,penerbit.penerbit as penerbit');
+        $builder = $builder->table($this->table);
+        $builder = $builder->join('kategori', 'kategori.id = buku.kategori_id', 'left');
+        $builder = $builder->join('penerbit', 'penerbit.id = buku.penerbit_id', 'left');
+        $builder = $builder->where(['kategori_id' => $kategori_id]);
+        if ($keyword) $builder->like(['judul' => $keyword]);
+        return $builder;
+    }
 }

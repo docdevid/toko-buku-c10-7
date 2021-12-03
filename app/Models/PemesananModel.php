@@ -49,18 +49,40 @@ class PemesananModel extends Model
 
     public function get($keyword = null)
     {
-        $builder = $this->select('pemesanan.*');
+        $builder = $this->select('pemesanan.*,status_pembayaran.status status_pembayaran_status');
         $builder = $builder->table($this->table);
         $builder = $builder->join('user', 'user.id = pemesanan.user_id', 'left');
+        $builder = $builder->join('status_pembayaran', 'status_pembayaran.pemesanan_id = pemesanan.id', 'left');
         if ($keyword) $builder->like(['pemesanan.id' => $keyword]);
         return $builder;
     }
 
     public function getByID($id)
     {
-        $builder = $this->select('pemesanan.*');
+        $builder = $this->select('pemesanan.*,status_pembayaran.status status_pembayaran_status');
         $builder = $builder->table($this->table);
-        $builder->where(['id' => $id]);
+        $builder = $builder->join('status_pembayaran', 'status_pembayaran.pemesanan_id = pemesanan.id', 'left');
+        $builder->where(['pemesanan.id' => $id]);
+        return $builder;
+    }
+
+    public function getByUser($keyword, $user_id)
+    {
+        $builder = $this->select('pemesanan.*,status_pembayaran.status status_pembayaran_status');
+        $builder = $builder->table($this->table);
+        $builder = $builder->join('user', 'user.id = pemesanan.user_id', 'left');
+        $builder = $builder->join('status_pembayaran', 'status_pembayaran.pemesanan_id = pemesanan.id', 'left');
+        $builder = $builder->where('user_id', $user_id);
+        if ($keyword) $builder->like(['pemesanan.id' => $keyword]);
+        return $builder;
+    }
+    public function getByUserAndID($id, $user_id)
+    {
+        $builder = $this->select('pemesanan.*,status_pembayaran.status status_pembayaran_status');
+        $builder = $builder->table($this->table);
+        $builder = $builder->join('status_pembayaran', 'status_pembayaran.pemesanan_id = pemesanan.id', 'left');
+        $builder = $builder->where('user_id', $user_id);
+        $builder->where(['pemesanan.id' => $id]);
         return $builder;
     }
 }

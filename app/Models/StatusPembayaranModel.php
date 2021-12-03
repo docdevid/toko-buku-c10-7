@@ -40,4 +40,11 @@ class StatusPembayaranModel extends Model
     protected $afterFind            = [];
     protected $beforeDelete         = [];
     protected $afterDelete          = [];
+
+    public function getByPemesanan($id_pemesanan)
+    {
+        $builder = $this->table($this->table);
+        $builder = $builder->where('pemesanan_id', $id_pemesanan);
+        return $builder;
+    }
 }

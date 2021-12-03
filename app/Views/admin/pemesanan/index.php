@@ -11,7 +11,9 @@
                     <th scope="col">No</th>
                     <th scope="col">Id Pemesanan</th>
                     <th scope="col">Nama Lengkap</th>
+                    <th scope="col">No HP</th>
                     <th scope="col-2">Alamat</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Dibuat</th>
                     <th scope="col">Aksi</th>
                 </tr>
@@ -23,7 +25,9 @@
                         <td scope="col"><?= $no++ ?></td>
                         <td scope="col">#<?= $pemesanan->id ?></td>
                         <td scope="col"><?= $pemesanan->nama_lengkap ?></td>
+                        <td scope="col"><?= $pemesanan->no_hp ?></td>
                         <td scope="col"><?= character_limiter($pemesanan->alamat, 50) ?></td>
+                        <td scope="col"><?= $pemesanan->status_pembayaran_status == '' || $pemesanan->status_pembayaran_status == 'belum dibayar' ? '<span class="badge bg-warning">Belum dibayar</span>' : '<span class="badge bg-success">Dibayar</span>'  ?></td>
                         <td scope="col"><?= $pemesanan->created_at ?></td>
                         <td scope="col">
                             <a href="<?= site_url('admin/pemesanan/' . $pemesanan->id) ?>" class="btn btn-sm text-primary"><i class="bi bi-info-circle"></i></a>

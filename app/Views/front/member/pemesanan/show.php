@@ -10,8 +10,8 @@
                     <td>#<?= $pemesanan->id ?></td>
                 </tr>
                 <tr>
-                    <td><b>Status Pemabayaran</b></td>
-                    <td><span class="badge bg-success">Berhasil</span></td>
+                    <td><b>Status Pembayaran</b></td>
+                    <td><?= $pemesanan->status_pembayaran_status == '' || $pemesanan->status_pembayaran_status == 'belum dibayar' ? '<span class="badge bg-warning">Belum dibayar</span>' : '<span class="badge bg-success">Dibayar</span>'  ?></td>
                 </tr>
                 <tr>
                     <td><b>Nama lengkap</b></td>
@@ -65,8 +65,8 @@
                 <small>Silahkan transfer ke :</small>
                 <p>BANK BRI CAB. Bojongsoang A.n. PT Cloud Hosting Indonesia > No. Rekening 043-901-000-947-302 <span>Rp <?= number_format($total, 2) ?></span></p>
                 <p class="small">Masukan berita <span class="fw-bold">INVOICE-<?= $pemesanan->id ?></span></p>
-                <p class=" small">Pastikan anda sudah mentransfer uang sebelum mengeksekusi tombol cek pembayaran</p>
-                <a href="#" class="btn btn-success">Cek Pembayaran</a>
+                <br />
+                <p>Setelah proses pembayaran selesai, kami akan menghubungi via telp untuk memberikan informasi pengiriman, dan memastikan kelengkapan alamat anda </p>
             </div>
         </div>
     </div>

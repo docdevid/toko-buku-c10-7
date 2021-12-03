@@ -21,6 +21,7 @@ class CartController extends BaseController
     public function index()
     {
         $cart_items = $this->session->get('cart_items');
+        if ($cart_items == null) return redirect()->back()->with('error', alert('danger', 'Belum ada item yang dimasukan'));
         $member_id = $this->session->has('userdata') ? $this->session->get('userdata')->id : 0;
         return view('front/cart/index', [
             'title' => getAppName(),

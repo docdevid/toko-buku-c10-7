@@ -63,7 +63,7 @@
             <div class="card-body bg-primary text-white">
                 <h6 class="card-title">Petunjuk Pembayaran</h6>
                 <small>Silahkan transfer ke :</small>
-                <p>BANK BRI CAB. Bojongsoang A.n. PT Cloud Hosting Indonesia > No. Rekening 043-901-000-947-302 <span>Rp <?= number_format($total, 2) ?></span></p>
+                <p>BANK BRI sssCAB. Rantepao A.n. TOKO BUKU Lisurannu > No. Rekening 043-901-000-947-302 <span>Rp <?= number_format($total, 2) ?></span></p>
                 <p class="small">Masukan berita <span class="fw-bold">INVOICE-<?= $pemesanan->id ?></span></p>
                 <br />
                 <p>Setelah proses pembayaran selesai, kami akan menghubungi via telp untuk memberikan informasi pengiriman, dan memastikan kelengkapan alamat anda </p>

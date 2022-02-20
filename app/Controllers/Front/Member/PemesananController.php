@@ -13,6 +13,7 @@ class PemesananController extends BaseController
 {
     public function __construct()
     {
+        $this->cart = \Config\Services::cart();
         $this->BukuModel = new BukuModel();
         $this->PemesananModel = new PemesananModel();
         $this->PemesananEntity = new PemesananEntity();
@@ -64,37 +65,24 @@ class PemesananController extends BaseController
      */
     public function create()
     {
-        $cart_items = $this->session->get('cart_items');
-        $bukus = $this->BukuModel
-            ->select('buku.*, kategori.kategori kategori,penerbit.penerbit penerbit')
-            ->join('kategori', 'kategori.id = buku.kategori_id', 'left')
-            ->join('penerbit', 'penerbit.id = buku.penerbit_id', 'left')
-            ->find(array_values(array_unique($cart_items)));
+        $cart_items = $this->cart->contents();
+        $ids = array_values(array_column($cart_items, 'id'));
 
-
-        $total = array_sum(array_column($bukus, 'harga'));
-        $qty = 0;
-        $sub_total = 0;
-        $total = 0;
         $data_batch = array();
-        // dd($bukus);
-
-
         if ($this->validation->run($this->request->getPost(), 'createPemesanan')) {
             $this->PemesananEntity->fill($this->request->getPost());
             $pemesanan_id = $this->PemesananModel->insert($this->PemesananEntity);
-            foreach ($bukus as $buku) :
-                $qty = array_count_values(session()->get('cart_items'))[$buku->id];
+            foreach ($this->cart->contents() as $buku) :
                 array_push($data_batch, [
                     'pemesanan_id' => $pemesanan_id,
-                    'buku_id' => $buku->id,
-                    'harga' => $buku->harga,
-                    'sub_total' => $qty * $buku->harga,
-                    'qty' => $qty,
+                    'buku_id' => $buku['id'],
+                    'harga' => $buku['price'],
+                    'sub_total' => $buku['subtotal'],
+                    'qty' => $buku['qty'],
                 ]);
             endforeach;
             $this->DetailPemesananModel->insertBatch($data_batch);
-            unset($_SESSION['cart_items']);
+            $this->cart->destroy();
             return redirect()->to('member/pemesanan/' . $pemesanan_id)->with('create_success', alert('success', 'Data berhasil disimpan', 'Berhasil'));
         } else {
             return redirect()->back()->withInput()->with('validation', $this->validation->getErrors());

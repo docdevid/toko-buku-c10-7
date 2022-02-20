@@ -12,6 +12,7 @@ class CartController extends BaseController
     {
         $this->BukuModel = new BukuModel();
         $this->UserModel = new UserModel();
+        $this->cart = \Config\Services::cart();
     }
     /**
      * Return an array of resource objects, themselves in array format
@@ -20,17 +21,12 @@ class CartController extends BaseController
      */
     public function index()
     {
-        $cart_items = $this->session->get('cart_items');
-        if ($cart_items == null) return redirect()->back()->with('error', alert('danger', 'Belum ada item yang dimasukan'));
+        if (count($this->cart->contents()) == 0) return redirect()->back()->with('error', alert('danger', 'Belum ada item yang dimasukan'));
         $member_id = $this->session->has('userdata') ? $this->session->get('userdata')->id : 0;
         return view('front/cart/index', [
             'title' => getAppName(),
-            'bukus' => $this->BukuModel
-                ->select('buku.*, kategori.kategori kategori,penerbit.penerbit penerbit')
-                ->join('kategori', 'kategori.id = buku.kategori_id', 'left')
-                ->join('penerbit', 'penerbit.id = buku.penerbit_id', 'left')
-                ->find(array_values(array_unique($cart_items))),
             'user' => $this->UserModel->find($member_id),
+            'bukus' => $this->cart->contents(),
             'validation' => $this->validation
         ]);
     }
@@ -61,17 +57,14 @@ class CartController extends BaseController
      */
     public function create()
     {
-        $buku_id = $this->request->getPost('buku_id');
-        $session = $this->session;
-        if ($session->has('cart_items')) {
-            $session->push('cart_items', [
-                $buku_id,
-            ]);
-        } else {
-            $session->set('cart_items', [
-                $buku_id
-            ]);
-        }
+        $book = $this->BukuModel->find($this->request->getPost('buku_id'));
+        $this->cart->insert(array(
+            'id' => $this->request->getPost('buku_id'),
+            'qty' => 1,
+            'price' => $book->harga,
+            'name' => $book->judul,
+            'options' => array($book)
+        ));
         return redirect()->back()->with('cart_create_success', alert('success', 'Data berhasil ditambahkan ke keranjang belanja'));
     }
 
@@ -92,7 +85,11 @@ class CartController extends BaseController
      */
     public function update($id = null)
     {
-        //
+        $this->cart->update(array(
+            'rowid' => $this->request->getPost('rowid'),
+            'qty' => $this->request->getPost('qty'),
+        ));
+        return redirect()->back()->with('cart_create_success', alert('success', 'Data berhasil diperbarui'));
     }
 
     /**
@@ -100,8 +97,10 @@ class CartController extends BaseController
      *
      * @return mixed
      */
-    public function delete($id = null)
+    public function delete($rowid = null)
     {
-        //
+        $this->cart->remove($rowid);
+        if (count($this->cart->contents()) == 0) return redirect('home')->with('error', alert('danger', 'Belum ada item yang dimasukan'));
+        return redirect()->back()->with('cart_create_success', alert('success', 'Data berhasil diperbarui'));
     }
 }

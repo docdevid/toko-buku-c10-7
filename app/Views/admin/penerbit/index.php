@@ -32,7 +32,7 @@
                         <td><?= $penerbit->created_at ?></td>
                         <td>
                             <a href="<?= site_url('admin/penerbit/' . $penerbit->id . '/edit') ?>" class="btn btn-sm text-success"><i class="bi bi-pencil"></i></a>
-                            <form onSubmit="event.preventDefault();deleteHandler(this);" action="<?= base_url('admin/penerbit/' . $penerbit->id) ?>" method="POST" class="form d-inline">
+                            <form onSubmit="deleteHandle(event,this);" action="<?= base_url('admin/penerbit/' . $penerbit->id) ?>" method="POST" class="form d-inline">
                                 <input type="hidden" name="_method" value="DELETE" />
                                 <?= csrf_field() ?>
                                 <button type="submit" class="btn btn-sm text-danger"><i class="bi bi-trash"></i></button>
@@ -54,37 +54,40 @@
 
 <?= $this->section('js') ?>
 <script>
-    let dialogShowDelete = true;
+    function deleteHandle(e, el) {
+        e.preventDefault();
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success ms-1',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        })
 
-    function deleteHandler(e) {
-        if (dialogShowDelete) {
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-primary',
-                    cancelButton: 'btn btn-light me-2'
-                },
-                buttonsStyling: false
-            })
-            swalWithBootstrapButtons.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'No, cancel!',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    dialogShowDelete = false;
-                    e.dispatchEvent(new Event('submit'));
-                } else if (
-                    /* Read more about handling dismissals below */
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    dialogShowDelete = true;
-                }
-            })
-        }
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                el.submit();
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                swalWithBootstrapButtons.fire(
+                    'Cancelled',
+                    'Your imaginary file is safe :)',
+                    'error'
+                )
+            }
+        })
+        return false;
+
     }
 </script>
 <?= $this->endSection() ?>

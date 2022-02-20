@@ -57,6 +57,58 @@ class Validation
         ]
     ];
 
+    public $createAdmin = [
+        'username' => [
+            'rules' => 'required|is_unique[user.username]',
+            'errors' => [
+                'required' => 'Username harus diisi',
+                'is_unique' => 'Username sudah ada'
+            ]
+        ],
+        'password' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Password harus diisi',
+            ]
+        ],
+        '_password' => [
+            'rules' => 'required|matches[password]',
+            'errors' => [
+                'required' => 'Password harus diisi',
+                'matches' => 'Password tidak cocok'
+            ]
+        ],
+        'gambar' => [
+            'rules' => 'uploaded[gambar]|is_image[gambar]',
+            'errors' => [
+                'uploaded' => 'Gambar tidak boleh kosong',
+                'is_image' => 'File harus berupa gambar',
+            ]
+        ]
+    ];
+    public $updateAdmin = [
+        'username' => [
+            'rules' => 'required|is_unique[user.username,id,{id}]',
+            'errors' => [
+                'required' => 'Username harus diisi',
+                'is_unique' => 'Username sudah ada'
+            ]
+        ],
+        'password' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Password harus diisi',
+            ]
+        ],
+        '_password' => [
+            'rules' => 'required|matches[password]',
+            'errors' => [
+                'required' => 'Password harus diisi',
+                'matches' => 'Password tidak cocok'
+            ]
+        ],
+    ];
+
     public $createUser = [
         'nama_lengkap' => [
             'rules' => 'required',
@@ -284,6 +336,13 @@ class Validation
             'rules' => 'required',
             'errors' => [
                 'required' => 'Penerbit tidak valid',
+            ]
+        ],
+        'harga' => [
+            'rules' => 'required|numeric',
+            'errors' => [
+                'required' => 'Harga tidak valid',
+                'numeric' => 'Harga harus berupa angka',
             ]
         ],
         'kategori_id' => [

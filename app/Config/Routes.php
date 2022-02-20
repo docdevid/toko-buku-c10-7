@@ -52,6 +52,7 @@ $routes->group('admin', ['filter' => 'authFilter'], function ($routes) {
     $routes->resource('penerbit', ['controller' => 'Admin\PenerbitController']);
     $routes->resource('user', ['controller' => 'Admin\UserController']);
     $routes->resource('pemesanan', ['controller' => 'Admin\PemesananController']);
+    $routes->resource('laporan', ['controller' => 'Admin\LaporanController']);
     $routes->resource('status-pembayaran', ['controller' => 'Admin\StatusPembayaranController']);
 });
 

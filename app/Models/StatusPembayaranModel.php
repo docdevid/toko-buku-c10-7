@@ -47,4 +47,15 @@ class StatusPembayaranModel extends Model
         $builder = $builder->where('pemesanan_id', $id_pemesanan);
         return $builder;
     }
+
+    public function getLaporan()
+    {
+        $builder = $this->table($this->table);
+        $builder->join('detail_pemesanan', "detail_pemesanan.pemesanan_id = $this->table.pemesanan_id", 'left');
+        $builder->where("$this->table.status = 'dibayar'");
+        $builder->select("YEAR($this->table.created_at) as tahun, MONTH($this->table.created_at) as bulan,sum(detail_pemesanan.qty) total_terjual,count($this->table.id) total_transaksi,sum(detail_pemesanan.sub_total) total_pemasukan");
+        $builder->groupBy("YEAR($this->table.created_at), MONTH($this->table.created_at)");
+        $builder->orderBy("YEAR($this->table.created_at), MONTH($this->table.created_at)", 'DESC');
+        return $builder;
+    }
 }

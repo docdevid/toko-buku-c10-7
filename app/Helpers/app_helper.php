@@ -3,6 +3,6 @@
 if (!function_exists('getAppName')) {
     function getAppName()
     {
-        return 'tokobuku.com';
+        return 'Lisurannu';
     }
 }

@@ -42,18 +42,6 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Role</label>
-                                <select class="form-control<?= $validation->hasError('role') ? ' is-invalid' : '' ?>" name="role" id="exampleFormControlSelect1">
-                                    <option value="">Pilih Role</option>
-                                    <option value="ADMIN" <?= old('role') ? (old('role') == 'ADMIN' ? 'selected' : '') : ($user ? ($user->role == 'ADMIN' ? 'selected' : '') : '') ?>>ADMIN</option>
-                                    <option value="PCM" <?= old('role') ? (old('role') == 'PCM' ? 'selected' : '') : ($user ? ($user->role == 'PCM' ? 'selected' : '') : '') ?>>PCM</option>
-                                    <option value="PDM" <?= old('role') ? (old('role') == 'PDM' ? 'selected' : '') : ($user ? ($user->role == 'PDM' ? 'selected' : '') : '') ?>>PDM</option>
-                                </select>
-                                <div id="validationServerUsernameFeedback" class="invalid-feedback">
-                                    <?= $validation->hasError('role') ? $validation->getError('role') : '' ?>
-                                </div>
-                            </div>
-                            <div class="mb-3">
                                 <label for="gambar" class="form-label">Foto Profil *</label>
                                 <input type="file" onchange="previewImage()" class="form-control <?= $validation->hasError('gambar') ? 'is-invalid' : '' ?>" name="gambar" id="gambar" />
                                 <?php if ($validation->hasError('gambar')) : ?>
@@ -64,9 +52,9 @@
                                 <div class="row mt-3 ">
                                     <div class="col-12 col-sm-8 col-md-10 col-lg-6">
                                         <?php if ($user) : ?>
-                                            <img id="imgPreview" class="rounded" src="<?= $user->gambar != '' && $user->gambar != 'default.png' ? base_url('upload/user/' . $user->gambar) : base_url('default.png') ?>" style="width:inherit;height:100px;object-fit:cover;" />
+                                            <img id="imgPreview" class="rounded" src="<?= $user->gambar != '' && $user->gambar != 'default.png' ? base_url('public/upload/user/' . $user->gambar) : base_url('public/default.png') ?>" style="width:inherit;height:100px;object-fit:cover;" />
                                         <?php else : ?>
-                                            <img id="imgPreview" class="rounded" src="<?= base_url('default.png') ?>" style="width:inherit;height:100px;object-fit:cover;" />
+                                            <img id="imgPreview" class="rounded" src="<?= base_url('public/default.png') ?>" style="width:inherit;height:100px;object-fit:cover;" />
                                         <?php endif; ?>
                                     </div>
                                 </div>

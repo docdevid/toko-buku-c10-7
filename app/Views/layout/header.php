@@ -25,7 +25,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <a class="navbar-brand px-0 px-sm-4" href="#">
-                <img src="<?= base_url('public/image/logo/logo.svg') ?>" />
+                <img src="<?= base_url('public/image/logo/logo.svg') ?>" /> <?= getAppName() ?>
             </a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -78,6 +78,9 @@
                             <a class="nav-link<?= url_is('admin/user*') ? ' active ' : ' ' ?> <?= isLoggedIn() ?: 'disabled' ?>" aria-current="page" href="<?= base_url('admin/user') ?>">Pengguna </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link<?= url_is('admin/laporan*') ? ' active ' : ' ' ?> <?= isLoggedIn() ?: 'disabled' ?>" aria-current="page" href="<?= base_url('admin/laporan') ?>">Laporan </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link<?= url_is(session()->get('userdata')->role . '/pemesanan') ? ' active ' : ' ' ?> <?= isLoggedIn() ?: 'disabled' ?>" aria-current="page" href="<?= base_url('admin/pemesanan') ?>">Pemesanan</a>
                         </li>
                     <?php endif; ?>
@@ -99,16 +102,19 @@
                         </li>
                     <?php endif; ?>
                 </ul>
-                <ul class="navbar-nav mb-2 mb-lg-0 me-0 me-md-4">
-                    <li class="nav-item ">
-                        <a href="<?= site_url('cart') ?>" class="nav-link">
-                            <div class="position-relative">
-                                <i class="bi bi-cart4 h6"></i>
-                                <small class="position-absolute" style="top:-5px;"><span class="badge bg-primary rounded-circle text-white"><?= session()->has('cart_items') ? count(session()->get('cart_items')) : '0' ?></span></small>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
+                <?php if (!isLoggedIn() || isAdminRole('MEMBER')) : ?>
+                    <ul class="navbar-nav mb-2 mb-lg-0 me-0 me-md-4">
+                        <li class="nav-item ">
+                            <a href="<?= site_url('cart') ?>" class="nav-link">
+                                <div class="position-relative">
+                                    <i class="bi bi-cart4 h6"></i>
+                                    <?php $cart = \Config\Services::cart(); ?>
+                                    <small class="position-absolute" style="top:-5px;"><span class="badge bg-primary rounded-circle text-white"><?= count($cart->contents()) ?></span></small>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                <?php endif; ?>
                 <form method="GET" action="<?= current_url() ?>" class="d-flex">
                     <input class="form-control me-2" type="search" name="search" placeholder="Search" value="<?= $_GET['search'] ?? null ?>" aria-label="Search">
                     <button class="btn btn-outline-light" type="submit">Cari</button>

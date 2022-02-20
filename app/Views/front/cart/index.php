@@ -2,7 +2,7 @@
 
 <?= $this->section('content') ?>
 <div class="row">
-    <div class="col-12 col-md-8">
+    <div class="col-12 col-md-7">
         <div class="d-flex justify-content-between">
             <h4 class="fw-bold mb-4">Informasi Pemesan</h4>
         </div>
@@ -12,40 +12,42 @@
             <?= $this->include('front/member/pemesanan/_form') ?>
         <?php endif; ?>
     </div>
-    <div class="col-12 col-md-4">
+    <div class="col-12 col-md-5">
         <div class="d-flex justify-content-between">
             <h4 class="fw-bold mb-4">Keranjang kamu</h4>
-            <h4 class="fw-bold mb-4"><span class="badge bg-primary"><?= session()->has('cart_items') ? count(session()->get('cart_items')) : '0' ?></span></h4>
+            <h4 class="fw-bold mb-4"><span class="badge bg-primary"><?= count($bukus) ?></span></h4>
         </div>
         <ul class="list-group">
             <?php
-            $total = array_sum(array_column($bukus, 'harga'));
-            ?>
-            <?php
-            $qty = 0;
             $sub_total = 0;
-            $total = 0;
-            foreach ($bukus as $buku) :
-                $qty = array_count_values(session()->get('cart_items'))[$buku->id];
-                $sub_total  = $qty * $buku->harga;
-                $total  += $sub_total;
-            ?>
+            foreach ($bukus as $buku) : ?>
 
                 <li class="list-group-item d-flex justify-content-between">
                     <div class="d-flex flex-column">
-                        <span><?= $buku->judul ?></span>
-                        <span class="fst-italic fw-light">(qty <?= $qty ?>)</span>
+                        <span><?= $buku['name'] ?></span>
+                        <div class="col-5 d-flex justify-content-around">
+                            <form class="d-flex me-5" method="POST" action="<?= site_url('cart/' . $buku['id']) ?>">
+                                <input type="hidden" name="_method" value="put" />
+                                <input type="hidden" name="rowid" value="<?= $buku['rowid'] ?>" />
+                                <input type="number" class="form-control form-control-sm col-1 me-1" name="qty" value="<?= $buku['qty'] ?>">
+                                <button class="btn btn-sm btn-success"><i class="bi bi-check-lg"></i></button>
+                            </form>
+                            <form method="POST" action="<?= site_url('cart/' . $buku['rowid']) ?>">
+                                <input type="hidden" name="_method" value="delete" />
+                                <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </div>
                     </div>
                     <div class="d-flex flex-column align-items-end">
-                        <span class="text-warning">Rp <?= number_format(($buku->harga), 2) ?> </span>
-                        <span class="text-warning small">Sub total Rp <?= number_format(($sub_total), 2) ?> </span>
+                        <span class="text-warning">Rp <?= number_format(($buku['price']), 2) ?> </span>
+                        <span class="text-warning small">Sub total Rp <?= number_format(($buku['subtotal']), 2) ?> </span>
                     </div>
                 </li>
-            <?php endforeach; ?>
-
+            <?php $sub_total += $buku['subtotal'];
+            endforeach; ?>
             <li class="list-group-item d-flex justify-content-between">
                 <span>Total</span>
-                <span>Rp <?= number_format($total, 2) ?></span>
+                <span>Rp <?= number_format($sub_total, 2) ?></span>
             </li>
         </ul>
 

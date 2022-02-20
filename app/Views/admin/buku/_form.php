@@ -47,6 +47,13 @@ $buku = isset($buku) ? $buku : null;
                         </div>
                     </div>
                     <div class="mb-3">
+                        <label for="harga" class="form-label">Harga</label>
+                        <input type="number" class="form-control<?= $validation->hasError('harga') ? ' is-invalid' : '' ?>" name="harga" id="harga" value="<?= old('harga') ? old('harga') : ($buku ? $buku->harga : '') ?>">
+                        <div id="validationServerHargaFeedback" class="invalid-feedback">
+                            <?= $validation->hasError('harga') ? $validation->getError('harga') : '' ?>
+                        </div>
+                    </div>
+                    <div class="mb-3">
                         <label for="penulis" class="form-label">Penulis</label>
                         <input type="text" class="form-control<?= $validation->hasError('penulis') ? ' is-invalid' : '' ?>" name="penulis" id="penulis" value="<?= old('penulis') ? old('penulis') : ($buku ? $buku->penulis : '') ?>">
                         <div id="validationServerPenulisFeedback" class="invalid-feedback">

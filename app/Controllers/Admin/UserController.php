@@ -65,11 +65,12 @@ class UserController extends BaseController
      */
     public function create()
     {
-        if ($this->validation->run($this->request->getPost(), 'createUser')) {
+        if ($this->validation->run($this->request->getPost(), 'createAdmin')) {
             $gambar = $this->request->getFile('gambar');
             $gambar_name = $gambar->getRandomName();
-            $gambar->move('upload/user', $gambar_name);
+            $gambar->move('public/upload/user', $gambar_name);
             $this->userEntity->gambar = $gambar_name;
+            $this->userEntity->role = 'admin';
             $this->userEntity->fill($this->request->getPost());
             $this->userModel->save($this->userEntity);
             return redirect('admin/user')->with('create_success', alert('success', 'Data berhasil disimpan', 'Berhasil'));
@@ -107,15 +108,15 @@ class UserController extends BaseController
         if (!$user) {
             return redirect()->to('admin/user')->with('get_failed', alert('danger', 'Pengguna tidak ditemukan', 'Error '));
         }
-        if ($this->validation->run($this->request->getPost(), 'updateUser')) {
+        if ($this->validation->run($this->request->getPost(), 'updateAdmin')) {
             $gambar = $this->request->getFile('gambar');
             $_gambar = $this->request->getPost('_gambar');
             if ($gambar->getError() == 4) {
                 $this->userEntity->gambar = $_gambar == '' ? 'default.png' : $_gambar;
             } else {
                 $gambar_name = $gambar->getRandomName();
-                if ($gambar->move('upload/user', $gambar_name)) {
-                    @unlink(FCPATH . 'upload/user/' . $_gambar);
+                if ($gambar->move('public/upload/user', $gambar_name)) {
+                    @unlink(FCPATH . 'public/upload/user/' . $_gambar);
                     $this->userEntity->gambar = $gambar_name;
                 }
             }
@@ -123,7 +124,7 @@ class UserController extends BaseController
             $this->userModel->save($this->userEntity);
             return redirect('admin/user')->with('create_success', alert('success', 'Data berhasil disimpan', 'Berhasil'));
         } else {
-            return redirect()->to('admin/user/new')->withInput()->with('validation', $this->validation->getErrors());
+            return redirect()->to('admin/user/' . $id . '/edit')->withInput()->with('validation', $this->validation->getErrors());
         }
     }
 
